@@ -1,0 +1,12 @@
+
+CQ 1: How many articles ask questions of each given question type?
+
+CQ 2: Map of spatial extent/temporal extent
+
+CQ 3: How many articles ask questions about each given spatial concept?
+
+CQ 4: What types of spatial supports are used for each article? On which resolution level?
+
+CQ 5: How many vector, raster, tessellations, ,....
+
+CQ 6: Is it a simple value filter, or more complex? Complexity of the query?

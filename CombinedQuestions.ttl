@@ -100,7 +100,7 @@ dbp:Addis_Ababa a sf:Polygon;
 	sqo:hasSupportAttribute _:LineNetwork; 
 	sqo:hasInputAttribute _:PopulationByAgeAndGender; 
 	sqo:hasInputAttribute _:ActivePopulationByAgeAndGender;
-	sqo:hasInputAttribute _:UnemploymentByAgeAndGender";
+	sqo:hasInputAttribute _:UnemploymentByAgeAndGender;
 	sqo:hasInputAttribute _:CencusAreas;
 	sqo:hasInputAttribute _:RoadNetwork;
 	sqo:hasInputAttribute _:PrimarySchoolLocations.
