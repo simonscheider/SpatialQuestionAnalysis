@@ -1,0 +1,810 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ada: <http://geographicknowledge.de/vocab/AnalysisData.rdf#>.
+@prefix ccd: <http://geographicknowledge.de/vocab/CoreConceptData.rdf#>.
+@prefix sqo: <http://geographicknowledge.de/vocab/SpatialQuestionOntology.rdf#>.
+@prefix sf: <http://www.opengis.net/ont/sf#>. 
+@prefix dbp: <http://dbpedia.org/resource/>.
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@base <http://geographicknowledge.de/vocab/SpatialQuestionData.rdf#>.
+@prefix : <http://geographicknowledge.de/vocab/SpatialQuestionData.rdf#>.
+@prefix time: <http://www.w3.org/2006/time#>.
+@prefix sp: <http://spinrdf.org/sp#>.
+
+#This is the turtle file containing all spatial questions
+#Currently, it contains questions 1 till 10
+
+#article 1: Qiao, J., Cao, Q., Liu, Y., Wu, Q., 2018
+
+:Question1 a sqo:Accuracy; 	#This is an accuracy analysis type question
+	rdfs:label "How can the EPIC-model be applied to assess the simulation accuracies at different scales?";
+	rdfs:comment "The EPIC-model simulates crop yields";
+	sqo:hasSpatialExtent _:Agro-pastoralTransitionalZoneOfNorthernChina;  	#This defines the study area
+	sqo:hasTemporalExtent "2011"^^time:generalYear; 						#This defines the study period
+	sqo:hasGoalAttribute _:SimulatedCropYield; 								#The goal attribute is the (accuracy of the) simulated crop yield
+	sqo:hasSupportAttribute _:Grid; 										#This defines the support (for generating the attribute) to be a grid
+	sqo:hasInputAttribute _:DailyClimateData;								#Here, all the input attributes are listed which are used to calculate the goal attribute
+	sqo:hasInputAttribute _:Agro-meteorologicalData;
+	sqo:hasInputAttribute _:TerrainSlope;
+	sqo:hasInputAttribute _:SoilData;
+	sqo:hasInputAttribute _:FertilizationApplicationRate;
+	sqo:hasInputAttribute _:MapOfIrrigationAreas;
+	sqo:hasInputAttribute _:GeographicDistributionOfMajorCrops;
+	sqo:hasInputAttribute _:StatisticalCropYields;
+	sqo:hasInputAttribute _:DigitalElevationModel.
+ 	  
+_:SimulatedCropYield a ccd:Lattice; 	#The goal attribute is a lattice attribute
+	ada:ofDataset ccd:Tesselation. 		#It is also an attribute of a spatial dataset which is a tesselation 
+
+_:SimulatedCropYield rdfs:label "Simulated Crop Yield". #Here, labels are added to the blank RDF nodes introduces above
+_:Agro-pastoralTransitionalZoneOfNorthernChina rdfs:label "Agro-pastoral Transitional Zone of Northern China".
+_:DailyClimateDataDaily rdfs:label "Climate Data".
+_:Agro-meteorologicalData rdfs:label "Agro-meteorological data".
+_:TerrainSlope rdfs:label "Terrain slope".
+_:SoilData rdfs:label "Soil data".
+_:FertilizationApplicationRate rdfs:label "Fertilization application rate".
+_:MapOfIrrigationAreas rdfs:label "Map of irrigation areas".
+_:GeographicDistributionOfMajorCrops rdfs:label "Geographic distribution of major crops".
+_:StatisticalCropYields rdfs:label "Statistical crop yields".
+_:DigitalElevationModel rdfs:label "Digital elevation model".
+			         
+_:Agro-pastoralTransitionalZoneOfNorthernChina a sf:Polygon; #This is a further specification of the spatial extent of the question. The study area lies within a polygon
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+	#The geometry above is not the actual geometry, it is solely meant as a way to demonstrate the possibilities of the ontology
+		
+#Question 2: Abo-El-Wafa, H., Yeshitela, K., Pauleit, S. , 2018
+
+:Question2 a sqo:LandUseModel; #This is a land-use model question
+	rdfs:label "How can an urban spatial design model be applied for moddeling the settlement expansion in Addis Ababa?";
+	rdfs:comment "For settlement expansion in Addis Ababa using Cellular Automata";
+	sqo:hasSpatialExtent dbp:Addis_Ababa;  
+	sqo:hasTemporalExtent "2025"^^time:generalYear;
+	sqo:hasGoalAttribute _:LandUse;  
+	sqo:hasSupportAttribute _:grid; 
+	sqo:hasInputAttribute _:LandUsePatterns; 
+	sqo:hasInputAttribute _:AdministrativeBoundary;
+	sqo:hasInputAttribute _:Population;
+	sqo:hasInputAttribute _:ExcludedAreas;
+	sqo:hasInputAttribute _:RoadNetwork;
+	sqo:hasInputAttribute _:UMTMaps.
+ 	  
+_:LandUse a ccd:FieldRaster; #The goal attribute is a field raster
+	ada:ofDataset ccd:Raster. #It is also an attribute of a spatial dataset which is a raster
+
+_:LandUse rdfs:label "Land Use".
+_:grid rdfs:label "Grid".
+_:LandUsePatterns rdfs:label "Land Use Patterns".
+_:AdministrativeBoundary rdfs:label "Administrative Boundary".
+_:Population rdfs:label "Population".
+_:ExcludedAreas rdfs:label "Excluded Areas".
+_:RoadNetwork rdfs:label "Road Networks".
+_:UMTMaps rdfs:label "UMT Maps".
+
+dbp:Addis_Ababa a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+
+#Article 3: Romanillos, G., García-Palomares, J.C. , 2018
+
+:Question3 a sqo:Accessibility; 
+	rdfs:label "How to evaluate existing accessibility to public facilities in relation to the amount of resources deployed and their location?";
+	rdfs:comment "For public and private primary schools in four European cities";
+	sqo:hasSpatialExtent dbp:Barcelona;  #This spatial question has four study areas
+ 	sqo:hasSpatialExtent dbp:London;
+	sqo:hasSpatialExtent dbp:Madrid;
+	sqo:hasSpatialExtent dbp:Rotterdam;
+	sqo:hasTemporalExtent "2015"^^time:generalYear; 
+	sqo:hasGoalAttribute _:AccessibilityValue; 
+	sqo:hasSupportAttribute _:LineNetwork; 
+	sqo:hasInputAttribute _:PopulationByAgeAndGender; 
+	sqo:hasInputAttribute _:ActivePopulationByAgeAndGender;
+	sqo:hasInputAttribute _:UnemploymentByAgeAndGender";
+	sqo:hasInputAttribute _:CencusAreas;
+	sqo:hasInputAttribute _:RoadNetwork;
+	sqo:hasInputAttribute _:PrimarySchoolLocations.
+ 	  
+_:AccessibilityValue a ccd:ObjectVector; #The goal attribute is in fact a vector graph, which could be considered to be a special case of object vectors
+	ada:ofDataset ccd:Vector. 
+
+_:AccessibilityValue rdfs:label "Accessibility Value".
+_:LineNetwork rdfs:label "Line Network".
+_:PopulationByAgeAndGender rdfs:label "Population by age and gender".
+_:grid rdfs:label "Active population by age and gender".
+_:LandUsePatterns rdfs:label "Unemployment by age and gender".
+_:AdministrativeBoundary rdfs:label "Cencus Areas".
+_:Population rdfs:label "Road network".
+_:ExcludedAreas rdfs:label "Primary School Locations".
+
+dbp:Barcelona a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+		
+dbp:London a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+
+dbp:Madrid a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+
+dbp:Rotterdam a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+
+#Question 4: Wong, Y.-L.I., Huangfu, Y., Hadley, T. , 2018
+
+:Question4 a sqo:Cluster; #This is an cluster analysis question
+	rdfs:label "To what extent are residential sites for people with intellectual dissabilities and people with physical disabbilities spatially dispersed?";
+	rdfs:comment "For Montgomery County (MC) and Philadelphia County (PC) in Pennsylvania";   	  
+	sqo:hasSpatialExtent dbp:Montgomery_County_Pennsylvania; #This question has two seperate study areas
+	sqo:hasSpatialExtent dbp:Philadelphia_County_Pennsylvania; 
+	sqo:hasTemporalExtent "2011"^^time:generalYear; 
+	sqo:hasGoalAttribute _:GlobalMoransI; #This is a statistic to test for spatial clustering
+	sqo:hasSupportAttribute _:StatisticalRegion; 
+	sqo:hasInputAttribute _:HousingLocationsOfPeopleWithIDAndPeopleWithPD; 
+	sqo:hasInputAttribute _:TypesOfPrograms;
+	sqo:hasInputAttribute _:NumberOfResidentsPerAdress.
+ 	  
+_:GlobalMoransI a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation.  
+
+_:GlobalMoransI rdfs:label "Global Moran's I".
+ _:StatisticalRegion rdfs:label "Statistical Region".
+_:HousingLocationsOfPeopleWithIDAndPeopleWithPD rdfs:label "Housing locations of people with ID and people with PD". 
+_:TypesOfPrograms rdfs:label "Types of programs".
+_:NumberOfResidentsPerAdress rdfs:label "Number of residents per adress".
+			         
+dbp:Montgomery_County_Pennsylvania a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+		
+dbp:Philadelphia_County_Pennsylvania a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+
+#Question 5: Li, X., Zhou, W. , 2018
+
+:Question5 a sqo:LandUseModel; #This is a land-use model question
+	rdfs:label "What is the urban population in China based on radiance corrected DMSP-OLS nighttime light and land cover data?";
+	sqo:hasSpatialExtent dbp:China;  
+	sqo:hasTemporalExtent "2000"^^time:generalYear;
+	sqo:hasTemporalExtent "2010"^^time:generalYear;
+	sqo:hasGoalAttribute _:ModeledPopulation;
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:CountyLevelUrbanPopulation; 
+	sqo:hasInputAttribute _:LandCoverData;
+	sqo:hasInputAttribute _:RadianceCorrectedDMSP-OLSNighttimelight.
+ 	  
+_:SimulatedPopulation a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:ModeledPopulation rdfs:label "Modeled Population".
+_:Grid rdfs:label "Grid".
+_:CountyLevelUrbanPopulation rdfs:label "County Level Urban Population".
+_:LandCoverData rdfs:label "Land Cover Data".
+_:RadianceCorrectedDMSP-OLSNighttimelight rdfs:label "Radiance Corrected DMSP-OLS Nighttime Light".
+
+#article 6: Pei, J., Niu, Z., Wang, L., Wu, Y.-B., Jiang, H.-H., 2018
+
+:Question6 a sqo:LandUseModel; 
+	rdfs:label "Which spatio-temporal dynamics of carbon emissions exist in South China?";
+	rdfs:comment "Carbon emissions based on a land use model together with several statistics";
+	sqo:hasSpatialExtent _:SouthChina;  
+	sqo:hasTemporalExtent "2013"^^time:generalYear; 
+	sqo:hasGoalAttribute _:CarbonEmissions;
+	sqo:hasSupportAttribute _:StatisticalRegions; 
+	sqo:hasInputAttribute _:LandCoverTypes; 
+	sqo:hasInputAttribute _:EnergyConsumption;
+	sqo:hasInputAttribute _:Agriculture;
+	sqo:hasInputAttribute _:SocioEconomicStatistics.
+
+_:CarbonEmissions a ccd:Lattice;
+	ada:ofDataset ccd:Tesselation. 
+
+_:SouthChina rdfs:label "South China".
+_:CarbonEmissions rdfs:label "Carbon Emissions".
+_:StatisticalRegions rdfs:label "Statistical Regions".
+_:LandCoverTypes rdfs:label "Land Cover Types".
+_:EnergyConsumption rdfs:label "Energy Consumption".
+_:Agriculture rdfs:label "Agriculture".
+_:SocioEconomicStatistics rdfs:label "Socio-Economic Statistics".
+
+#Question 7: Al-Yasery, H., Almuhanna, R.R.A., Al-Jawahery, Z., 2018
+
+:Question7 a sqo:Suitability; 
+	rdfs:label "Where are the sites which are most suitable to function as metro stations located in Karbala?";
+	sqo:hasSpatialExtent dbp:Karbala;  
+	sqo:hasTemporalExtent "2018"^^time:generalYear; 
+	sqo:hasGoalAttribute _:SuitabilityIndex;
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:Population; 
+	sqo:hasInputAttribute _:OriginDestination;
+	sqo:hasInputAttribute _:LandUse;
+	sqo:hasInputAttribute _:TransportationNetwork.
+ 	  
+_:SuitabilityIndex a ccd:Lattice;
+			ada:ofDataset ccd:Tesselation.
+
+_:SuitabilityIndex rdfs:label "Suitability Index".
+_:Grid rdfs:label "Grid".
+_:Population rdfs:label "Population".
+_:OriginDestinationMatrix rdfs:label "Origin Destination".
+_:LandUse rdfs:label "Land Use".
+_:TransportationNetwork rdfs:label "Transportation Network".
+
+#Question 8: Calovi, M., Seghieri, C., T., 2018
+
+:Question8 a sqo:Accessibility; 
+	rdfs:label "What is the spatial access to outpatient services relative to the demand in Tuscany in 2015?";
+	rdfs:comment "For outpatient (medical) services in the Tuscany Province in Italy"; 
+	sqo:hasSpatialExtent dbp:Tuscany;
+	sqo:hasTemporalExtent "2018"^^time:generalYear; 
+	sqo:hasGoalAttribute _:AccessibilityIndex; 
+	sqo:hasSupportAttribute _:StatisticalRegions; 
+	sqo:hasInputAttribute _:Population; 
+	sqo:hasInputAttribute _:HealthcareServiceLocations;
+	sqo:hasInputAttribute _:HealthCareInformationOfOutpatientSpecializedVisits.
+ 	  
+_:AccessibilityIndex a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:AccessibilityIndex rdfs:label "Accessibility Index".
+_:StatisticalRegion rdfs:label "Statistical Region".
+_:Population rdfs:label "Population".
+_:HealthcareServiceLocations rdfs:label "Healthcare Service Locations".
+_:HealthCareInformationOfOutpatientSpecializedVisits rdfs:label "Health care information of outpatient specialized visits".
+
+
+dbp:Tuscany a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+
+#Question 9: Amri, M.R., Wiguna, S., Yunus, R., 2018
+
+:Question9 a sqo:PopulationDistribution; 
+	rdfs:label "What is the population distribution in the Banten province in Indonesia?";
+	rdfs:comment "It's about an improved method to calculate the population distribution in Indonesia";
+	sqo:hasSpatialExtent dbp:Banten;  
+	sqo:hasTemporalExtent "2015"^^time:generalYear; 
+	sqo:hasGoalAttribute _:PopulationDistribution;
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:VillageAdministrationBoundaries; 
+	sqo:hasInputAttribute _:VillagePopulation;
+	sqo:hasInputAttribute _:ResidentialDistribution.
+ 	  
+_:SimulatedCropYield a ccd:Lattice; 
+			         ada:ofDataset ccd:Tesselation. 
+
+_:PopulationDistribution rdfs:label "Population Distribution".
+_:Grid rdfs:label "Grid".
+_:VillageAdministrationBoundaries rdfs:label "Village dministration Boundaries".
+_:VillagePopulation rdfs:label "Village Population".
+_:ResidentialDistribution rdfs:label "Residential Distribution".
+
+#Question 10:Jiang, M., Xiong, L., Wang, Z., Zhang, Y., Ren, X., 2018
+
+:Question10 a sqo:PopulationDistribution; 
+	rdfs:label "To what extent are there regional differences in population distribution in the Yunnan province, China?";
+	rdfs:comment "The population distribution is based on big data collected from a population census";
+	sqo:hasSpatialExtent dbp:Yunnan;  
+	sqo:hasTemporalExtent "2016"^^time:generalYear; 
+	sqo:hasGoalAttribute _:PopulationDistribution;
+	sqo:hasSupportAttribute _:StatisticalRegions; 
+	sqo:hasInputAttribute _:PopulationCensus; 
+	sqo:hasInputAttribute _:AdministrativeBoundaries.
+
+_:PopulationDistribution a ccd:Lattice;
+	ada:ofDataset ccd:Tesselation. 
+
+_:PopulationDistribution rdfs:label "Population Distribution".
+_:StatisticalRegions rdfs:label "Statistical Regions".
+_:PopulationCensus rdfs:label "Population Census".
+_:AdministrativeBoundaries rdfs:label "Administrative Boundaries".
+
+#Question 11: Susilo, B., 2017
+
+:Question11 a sqo:LandUseModel; 
+	rdfs:label "Which are the determinant factors in land use change in Yogyakarta? ";
+	rdfs:comment "Between three years: 1993, 2000 and 2007";
+	sqo:hasSpatialExtent dbp:Yogyakarta;  
+	sqo:hasTemporalExtent "1993-2007"^^time:generalYear; 
+	sqo:hasGoalAttribute _:LandUse;
+	sqo:hasSupportAttribute _:LandUseCoverage; 
+	sqo:hasInputAttribute _:Demographic; 
+	sqo:hasInputAttribute _:Socio-economic;
+	sqo:hasInputAttribute _:DigitalElevationModel;
+	sqo:hasInputAttribute _:TopographicMaps.
+ 	  
+_:LandUse a ccd:Coverage; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:LandUse rdfs:label "Land Use".
+_:LandUseCoverage rdfs:label "Land Use Coverage".
+_:Demographic rdfs:label "Demographic".
+_:Socio-economic rdfs:label "Socio-economic".
+_:DigitalElevationModel rdfs:label "Digital Elevation Model".
+_:TopographicMaps rdfs:label "Topographic Maps".
+
+#Question 12: Calka, B., Nowak Da Costa, J., Bielecka, E. , 2017
+
+:Question12 a sqo:PopulationDistribution; 
+	rdfs:label "How can high resolution population data together with cadastral data be used in risk assessment?";
+	rdfs:comment "For a city in the Polish district Mazovia as a case study";
+	sqo:hasSpatialExtent dbp:Mazovia;  
+	sqo:hasTemporalExtent "2013"^^time:generalYear; 
+	sqo:hasGoalAttribute _:PopulationDensity;
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:Population; 
+	sqo:hasInputAttribute _:Buildings.
+ 	  
+_:PopulationDensity a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:PopulationDensity rdfs:label "Population Density".
+_:Grid rdfs:label "Grid".
+_:Population rdfs:label "Population".
+_:Buildings rdfs:label "Buildings".
+
+#Question 13: Sousa, D.C.B., Pitombo, C.S., Rocha, S.S., Salgueiro, A.R., Delgado, J.P.M., 2017
+
+:Question13 a sqo:Cluster; 
+	rdfs:label "Which regions have the highest incidence of violence in public transportion?";
+	rdfs:comment "In the state Bahia, Brazil";
+	sqo:hasSpatialExtent dbp:Bahia;  
+	sqo:hasTemporalExtent "2013"^^time:generalYear; 
+	sqo:hasGoalAttribute _:ViolenceIncidence;
+	sqo:hasSupportAttribute _:StatisticalRegions; 
+	sqo:hasInputAttribute _:CrimeData; 
+	sqo:hasInputAttribute _:PublicTransportNetwork;
+	sqo:hasInputAttribute _:RoadNetwork.
+ 	  
+_:ViolenceIncidence a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:ViolenceIncidence rdfs:label "Violence Incidence".
+_:StatisticalRegions rdfs:label "Statistical Regions".
+_:CrimeData rdfs:label "Crime Data".
+_:PublicTransportNetwork rdfs:label "Public Transport Network".
+_:RoadNetwork rdfs:label "Road Network".
+
+#Question 14: Hajilo, M., Masoom, M.G., Motiee Langroudi, S.H., Sabokbar, H.F., Pennington-Gray, L., 2017
+
+:Question14 a sqo:Cluster; 
+	rdfs:label "How are small touristic businesses spatially distributed in Gilan";
+	rdfs:comment "In the Gilan Province, Iran";
+	sqo:hasSpatialExtent dbp:Gilan_Province;  
+	sqo:hasTemporalExtent "2012-2016"^^time:generalYear; 
+	sqo:hasGoalAttribute _:Getis-OrdGi; #A statistic used to analyze hot and cold spots
+	sqo:hasSupportAttribute _:VectorPoints; 
+	sqo:hasInputAttribute _:Demographics; 
+	sqo:hasInputAttribute _:Boundaries;
+	sqo:hasInputAttribute _:NaturalSituation;
+	sqo:hasInputAttribute _:BusinessLocations.
+
+_:TouristicBusinessLocation a ccd:ObjectVector;
+	ada:ofDataset ccd:Vector. 
+
+_:TouristicBusinessLocation rdfs:label "Touristic Business Location".
+_:Demographics rdfs:label "Demographics".
+_:Boundaries rdfs:label "Boundaries".
+_:NaturalSituation rdfs:label "Natural Situation".
+_:BusinessLocations rdfs:label "Business Locations".
+_:VectorPoints rdfs:label "Vector Points".
+
+#Question 15: Shah, T.I., Milosavljevic, S., Bath, B., 2017
+
+:Question15 a sqo:Accessibility; 
+	rdfs:label "What is the geographic accessibility to primary healthcare services in relation to the distribution of seniors in Saskatchewan and Alberta?";
+	rdfs:comment "Accessibility of family physician and nurse practitioner practice locations";
+	sqo:hasSpatialExtent dbp:Saskatchewan;
+	sqo:hasSpatialExtent dbp:Alberta;	
+	sqo:hasTemporalExtent "2014"^^time:generalYear; 
+	sqo:hasGoalAttribute _:AccessScore;
+	sqo:hasSupportAttribute _:StatisticalRegions; #Dissemination Areas (DAs), the smallest Canadian census geographic unit 
+	sqo:hasInputAttribute _:PopulationData; 
+	sqo:hasInputAttribute _:HealthcareLocations.
+ 	  
+_:AccessScore a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:AccessScore rdfs:label "Access Score".
+_:PopulationData rdfs:label "family physician and nurse practitioner practice locations".
+_:HealthcareLocations rdfs:label "Healthcare Locations".
+
+#Question 16: Shen, Y., Chai, Y. , 2016
+
+sqo:Question a sqo:Track; #This is a track analysis question
+	rdfs:label "To what extent are there differences in spatial-temporal fixity and flexibility between individuals in Beijning in 2012?";
+	rdfs:comment "Track analysis for daily travel trajectories in Beijing, more specifically, the Shangdi-Qinghe area";
+	sqo:hasSpatialExtent dbp:Beijing;#This is the study area of the question
+	sqo:hasTemporalExtent "2012"^^time:generalYear; 
+	sqo:hasGoalAttribute _:TravelTrajectory; #This defines the daily travel trajectory as the goal attribute
+	sqo:hasSupportAttribute _:TrajectoryLines; 
+	sqo:hasInputAttribute _:PersonalCharacteristics; 
+	sqo:hasInputAttribute _:AttributesOfActivity-TravelBehavior.
+ 	  
+_:TravelTrajectory a ccd:EventVector;
+	ada:ofDataset ccd:Vector. 
+
+_:TravelTrajectory rdfs:label "Travel Trajectory".
+_:TrajectoryLines rdfs:label "Trajectory Lines".
+_:PersonalCharacteristics rdfs:label "Personal Characteristics".
+_:AttributesOfActivity-TravelBehavior rdfs:label "Attributes of respondents’ activity-travel behavior".
+
+dbp:Istanbul_Province a sf:Polygon; 
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral.
+		
+#Question 17: Dong, N., Yang, X., Cai, H., Huang, D., 2017
+
+:Question17 a sqo:Granularity; 
+	rdfs:label "How can a grid size suitability evaluation method be developed for grid-based population data?";
+	rdfs:comment "It is about the accuracy of different cell sizes in a grid";
+	sqo:hasSpatialExtent dbp:Xuanzhou_District;  
+	sqo:hasTemporalExtent "2017"^^time:generalYear; 
+	sqo:hasGoalAttribute _:PopulationDistribution; #Rather about the accurracy of this attribute
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:CensusData; 
+	sqo:hasInputAttribute _:LandUse;
+	sqo:hasInputAttribute _:CountyBoundaries.
+ 	  
+_:PopulationDistribution a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:PopulationDistribution rdfs:label "Population Distribution".
+_:Grid rdfs:label "Grid".
+_:CensusData rdfs:label "Census Data".
+_:LandUse rdfs:label "Land Use".
+_:CountyBoundarie rdfs:label "County Boundarie".
+
+#Question 18: Barton, M.S., Weil, F., Jackson, M., Hickey, D.A., 2017
+
+:Question18 a sqo:SpatialDistribution; 
+	rdfs:label "What is the the influence of neighborhood violent crime on the fear of crime?";
+	rdfs:comment "It uses a logistical regression model";
+	sqo:hasSpatialExtent _:EastBatonRougeParish;  
+	sqo:hasTemporalExtent "2014"^^time:generalYear; 
+	sqo:hasGoalAttribute _:FearOfCrime;
+	sqo:hasSupportAttribute _:StatisticalRegions; 
+	sqo:hasInputAttribute _:IndividualLevelCharacteristics;
+	sqo:hasInputAttribute _:NeighborhoudLevelCharacteristics;
+	sqo:hasInputAttribute _:ViolentCrimeRate.
+
+_:FearOfCrime a ccd:Lattice;  
+	ada:ofDataset ccd:Tesselation. 
+
+_:EastBatonRougeParish rdfs:label "East Baton Rouge Parish".
+_:FearOfCrime rdfs:label " Fear of crime".
+_:IndividualLevelCharacteristics rdfs:label "Individual Level Characteristics".
+_:NeighborhoudLevelCharacteristics rdfs:label "Neighborhoud Level Characteristics".
+_:ViolentCrimeRate rdfs:label "Violent Crime Rate".
+
+#Question 19: Cai, J., Huang, B., Song, Y., 2017
+
+:Question19 a sqo:Cluster; 
+	rdfs:label "How can the structure of polycentric cities be identified using multi-source geospatial big data?";
+	rdfs:comment "Using nightlight and social media data to identify subcenters of three Chinese cities";
+	sqo:hasSpatialExtent dbp:Beijing;   
+	sqo:hasSpatialExtent dbp:Shanghai;
+	sqo:hasSpatialExtent dbp:Chongqing;
+	sqo:hasTemporalExtent "2016"^^time:generalYear; 
+	sqo:hasGoalAttribute _:SubCenterLocations;
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:NighttimeLightImagery; 
+	sqo:hasInputAttribute _:SocialMediaData.
+ 	  
+_:SubCenterLocation a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:NighttimeLightImagery rdfs:label "Nighttime Light Imagery".
+_:SocialMediaData rdfs:label "Social Media Data".
+_:SubCenterLocation rdfs:label "SubcCenter Locations".
+
+#Question 20: Esch, T., Heldens, W., Hirner, A., Dech, S., Strano, E., 2017
+
+:Question20 a sqo:LandUseModel; 
+	rdfs:label "How can human settlements be identified using remote sensing on a global scale?";
+	sqo:hasSpatialExtent dbp:Earth;  
+	sqo:hasTemporalExtent "2016"^^time:generalYear; 
+	sqo:hasGoalAttribute _:UrbanizedArea;
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:TerraSAR-XImages; 
+	sqo:hasInputAttribute _:TanDEM-XImages.
+
+_:UrbanizedArea a ccd:Coverage; 
+	ada:ofDataset ccd:Raster. 
+
+_:UrbanizedArea rdfs:label "Urbanized Area".
+_:Grid rdfs:label "Grid".
+_:TerraSAR-XImages rdfs:label "TerraSAR-X Images".
+_:TanDEM-XImages rdfs:label "TanDEM-X Images".
+
+#Question 21: , 2017
+
+:Question21 a sqo:Accessibility; 
+	rdfs:label "What is the spatial access to private and public hospitals in Sichuan?";
+	sqo:hasSpatialExtent dbp:Sichuan;  
+	sqo:hasTemporalExtent ""^^time:generalYear; 
+	sqo:hasGoalAttribute _:AccessScore;
+	sqo:hasSupportAttribute _:StatisticalRegions; #Counties in Sichuan
+	sqo:hasInputAttribute _:Hospitals; 
+	sqo:hasInputAttribute _:Population;
+	sqo:hasInputAttribute _:RoadNetwork.
+ 	  
+_:AccessScore a ccd:Lattice;
+	ada:ofDataset ccd:Tesselation. 
+
+_:AccessScore rdfs:label "Access Score".
+_:StatisticalRegions rdfs:label "Statistical Regions".
+_:Hospitals rdfs:label "Hospitals".
+_:Population rdfs:label "Population".
+_:RoadNetwork rdfs:label "RoadNetwork".
+
+#Question 22: Gumusay, M.U., Koseoglu, G. & Bakirman, T., 2016
+
+:Question22 a sqo:Suitability; #This is an suitability question
+	rdfs:label "Where are the sites located which are most suitable for the construction of marinas in Istanbul’s Marmara Sea shoreline?";
+	rdfs:comment "for a marina (harbour) site at Istanbul’s Marmara Sea shoreline";
+	sqo:hasSpatialExtent dbp:Istanbul_Province;
+	sqo:hasTemporalExtent "2018"^^time:generalYear;  
+	sqo:hasGoalAttribute _:SuitabilityScore; #the goal attribute is a suitability index
+	sqo:hasSupportAttribute _:Grid; #This defines the support (for generating the attribute) to be a grid
+	sqo:hasInputAttribute _:Erosion;#Here, all the input attributes are listed which are used to calculate the goal attribute
+	sqo:hasInputAttribute _:LandslideRisk;
+	sqo:hasInputAttribute _:GeologicalUnsuitableArea;
+	sqo:hasInputAttribute _:SeabedSlope;
+	sqo:hasInputAttribute _:Landuse;
+	sqo:hasInputAttribute _:SeabedTansmissionLines;
+	sqo:hasInputAttribute _:SeaTraffic;
+	sqo:hasInputAttribute _:DemographicData;
+	sqo:hasInputAttribute _:DistanceToMainRoads.
+
+_:SuitabilityScore a ccd:Lattice;
+	ada:ofDataset ccd:Tesselation.
+
+_:SuitabilityIndex rdfs:label "Suitability Index".
+_:Erosion rdfs:label "Erosion".
+_:LandslideRisk rdfs:label "Landslide Risk".
+_:GeologicalUnsuitableArea rdfs:label "Geological Unsuitable Area".
+_:SeabedSlope rdfs:label "Seabed Slope".
+_:Landuse rdfs:label "Landuse".
+_:SeabedTansmissionLines rdfs:label "Seabed Transmission Lines".
+_:SeaTraffic rdfs:label "Sea Traffic".
+_:DemographicData rdfs:label "Demographic Data".
+_:DistanceToMainRoads rdfs:label "Distance To Main Roads".
+
+dbp:Istanbul_Province a sf:Polygon; #This is a further specification of the spatial extent of the question. The study area lies within a polygon
+	geo:asWKT "POLYGON((-77.089005 38.913574,-77.029953 38.913574,-77.029953 38.886321,-77.089005 38.886321,-77.089005 38.913574))"^^geo:wktLiteral. 
+
+
+:Question22 sqo:translatesTo   
+[ a sp:select ;
+  rdfs:comment "Which support values in the goal dataset have goal attribute value above 0.8";
+  sp:Filter 
+          ( sp:expression
+              [ a sp:ge ;
+                sp:arg1 [ sp:varName "attributevalue"^^xsd:string ] ;
+                sp:arg2 0.8
+              ] ) ;
+   sp:resultVariables
+    ([ sp:varName "supportvalue"^^<xsd:string> ]);
+   sp:where ([sp:object :question22; 
+              sp:predicate sqo:hasGoalAttribute ;
+              sp:subject [ sp:varName "attribute"^^xsd:string ]
+             ] 
+             [sp:object [ sp:varName "attribute"^^xsd:string ]; 
+              sp:predicate sqo:hasValue;
+              sp:subject [ sp:varName "attributevalue"^^xsd:string ]
+             ] 
+             [sp:object :Question22;
+              sp:predicate sqo:hasSupportAttribute;
+              sp:subject [ sp:varName "support"^^xsd:string ]
+             ] 
+             [sp:object [ sp:varName "support"^^xsd:string ]; 
+              sp:predicate ada:hasValue;
+              sp:subject [ sp:varName "supportvalue"^^xsd:string ]
+             ] 
+             [sp:object [ sp:varName "dataitem"^^xsd:string ]; 
+              sp:predicate ada:hasAttribute;
+              sp:subject [ sp:varName "supportvalue"^^xsd:string ]
+             ] 
+             [sp:object [ sp:varName "dataitem"^^xsd:string ]; 
+              sp:predicate ada:hasAttribute;
+              sp:subject [ sp:varName "attributevalue"^^xsd:string ]
+             ] 
+             [sp:object :Question22 ;
+              sp:predicate sqo:hasGoalDataset;
+              sp:subject [ sp:varName "goaldataset"^^xsd:string ]
+             ] 
+             [sp:object [ sp:varName "goaldataset"^^xsd:string ]; 
+              sp:predicate ada:hasElement;
+              sp:subject [ sp:varName "dataitem"^^xsd:string ]
+             ] )
+     ].
+
+#Question 23: Bock, F., Sester, M., 2016
+
+:Question23 a sqo:SpatialSimilarities; 
+	rdfs:label "How can parking availability maps be improved by using sensor data from nearby roads in San Fransisco";
+	sqo:hasSpatialExtent dbp:San_Francisco;  
+	sqo:hasTemporalExtent "2014"^^time:generalYear; 
+	sqo:hasGoalAttribute _:AvailabilityRate;
+	sqo:hasSupportAttribute _:NetworkVector; 
+	sqo:hasInputAttribute _:RoadNetwork; 
+	sqo:hasInputAttribute _:ParkingSensorData.
+ 	  
+_:AvailabilityRate a ccd:ObjectVector; 
+	ada:ofDataset ccd:Vector. 
+
+_:AvailabilityRate rdfs:label "Availability Rate".
+_:ParkingSensorData rdfs:label "Parking Sensor Data".
+_:RoadNetwork rdfs:label "Road Network".
+_:NetworkVector rdfs:label "Network Vector".
+
+#Question 24: Saghapour, T., Moridpour, S., Thompson, R.G., 2016
+
+:Question24 a sqo:Accessibility; 
+	rdfs:label "What is the spatial accessibility to public transport in Melbourne?";
+	rdfs:comment "Presenting a new method to measure PT accessibility";
+	sqo:hasSpatialExtent dbp:Melbourne;  
+	sqo:hasTemporalExtent "2011"^^time:generalYear; 
+	sqo:hasGoalAttribute _:PublicTransportAccessibilityIndex;
+	sqo:hasSupportAttribute _:StatisticalRegions; #Mesh Blocks from the 2011 Census of Population and Housing
+	sqo:hasInputAttribute _:PublicTranspotRoutes; 
+	sqo:hasInputAttribute _:PointsOfInterest;
+	sqo:hasInputAttribute _:DemographicData;
+	sqo:hasInputAttribute _:PublicTransportStops;
+	sqo:hasInputAttribute _:PublicTransportFrequency.
+ 	  
+_:PublicTransportAccessibilityIndex a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:PublicTransportAccessibilityIndex rdfs:label "Public Transport Accessibility Index".
+_:PublicTransportStops rdfs:label "Public Transport Stops".
+_:PublicTranspotRoutes rdfs:label "Public Transpot Routes".
+_:DemographicData rdfs:label "Demographic data".
+_:PointsOfInterest rdfs:label "Points Of Interest".
+_:PublicTransportFrequency rdfs:label "Public Transport Frequency".
+
+#Question 25: Paldino, S., Kondor, D., Bojic, I., González, M.C., Ratti, C., 2016
+
+:Question25 a sqo:SpatiotemporalTrend; 
+	rdfs:label "What are the urban temporal patterns of individuals in big cities based upon geo-tagged photography?";
+	rdfs:comment "";
+	sqo:hasSpatialExtent dbp:NewYorkCity;
+	sqo:hasSpatialExtent dbp:London;
+	sqo:hasSpatialExtent dbp:Paris;
+	sqo:hasSpatialExtent dbp:SanFrancisco;
+	sqo:hasSpatialExtent dbp:WashingtonDC;
+	sqo:hasSpatialExtent dbp:Barcelona;
+	sqo:hasSpatialExtent dbp:Rome;
+	sqo:hasSpatialExtent dbp:Chicago;
+	sqo:hasSpatialExtent dbp:LosAngeles;
+	sqo:hasSpatialExtent dbp:Berlin;  
+	sqo:hasTemporalExtent "2007-2010"^^time:generalYear; 
+	sqo:hasGoalAttribute _:PersonalPhotographPoints;
+	sqo:hasSupportAttribute _:EventPointVector; 
+	sqo:hasInputAttribute _:Geo-taggedPhotographs. 
+
+_:PersonalPhotographPoints a ccd:EventVector; 
+	ada:ofDataset ccd:Vector. 
+
+_:PersonalPhotographPoints rdfs:label "Personal Photograph Points".
+_:EventPointVector rdfs:label "Event Point Vector".
+_:Geo-taggedPhotographs rdfs:label "Geo-tagged Photographs".
+
+#Question 26: Paldino, S., Kondor, D., Bojic, I., González, M.C., Ratti, C., 2016
+
+:Question a sqo:RegressionModel; 
+	rdfs:label "What is the impact of land use and population density on surface water quality in the Wen-Rui Tang River watershed in China?";
+	sqo:hasSpatialExtent _:Wen-RuiTangRiverWatershed;  
+	sqo:hasTemporalExtent "2008-2010"^^time:generalYear; 
+	sqo:hasGoalAttribute _:WaterQuality;
+	sqo:hasSupportAttribute _:CollectionPoints; #The collection points within the watershed
+	sqo:hasInputAttribute _:LandUse; 
+	sqo:hasInputAttribute _:PopulationDensity;
+	sqo:hasInputAttribute _:WaterQualitySamples;
+	sqo:hasInputAttribute _:DigitalElevationModel.
+ 	  
+_:WaterQuality a ccd:ObjectVector; 
+	ada:ofDataset ccd:Vector. 
+
+_:WaterQuality rdfs:label "Water Quality".
+_:Wen-RuiTangRiverWatershed rdfs:label "Wen-Rui Tang River Watershed".
+_:LandUse rdfs:label "Land Use".
+_:PopulationDensity rdfs:label "Population Density".
+_:WaterQualitySamples rdfs:label "Water Quality Samples".
+_:DigitalElevationModel rdfs:label "Digital Elevation Model".
+
+#Question 27: Jin, X., Pan, Q., Yang, X., Bai, Q., Zhou, Y., 2016
+
+:Question27 a sqo:LandUseModel; 
+	rdfs:label "What was the historical spatial land use pattern for Jiangsu Province in the mid-Qing Dynasty?";
+	rdfs:comment "1820";
+	sqo:hasSpatialExtent dbp:Jiangsu;  
+	sqo:hasTemporalExtent "1820"^^time:generalYear; 
+	sqo:hasGoalAttribute _:LandUse;
+	sqo:hasSupportAttribute _:Grid; 
+	sqo:hasInputAttribute _:Population; 
+	sqo:hasInputAttribute _:Elevation;
+	sqo:hasInputAttribute _:Slope.
+ 	  
+_:LandUse a ccd:FieldRaster; 
+	ada:ofDataset ccd:Raster. 
+
+_:LandUse rdfs:label "Land Use".
+_:Grid rdfs:label "Grid".
+_:Population rdfs:label "Population".
+_:Elevation rdfs:label "Elevation".
+_:Slope rdfs:label "Slope".
+
+#Question 28: Osama, A., Sayed, T., 2016
+
+:Question28 a sqo:NetworkAnalysis; 
+	rdfs:label "What is the impact of bike network indicators on cyclist safety using macro-level collision prediction models?";
+	sqo:hasSpatialExtent dbp:Vancouver;  
+	sqo:hasTemporalExtent "2013"^^time:generalYear; 
+	sqo:hasGoalAttribute _:CollisionFrequency;
+	sqo:hasSupportAttribute _:VectorGraph; 
+	sqo:hasInputAttribute _:CollissionData; 
+	sqo:hasInputAttribute _:VehicleTrafficVolume;
+	sqo:hasInputAttribute _:NetworkDensity.
+ 	  
+_:CollisionFrequency a ccd:ObjectVector; 
+	ada:ofDataset ccd:Vector. 
+
+_:CollisionFrequency rdfs:label "Collision Frequency".
+_:VectorGraph rdfs:label "Vector Graph".
+_:CollissionData rdfs:label "Collission Data".
+_:VehicleTrafficVolume rdfs:label "Vehicle Traffic Volume".
+_:NetworkDensity rdfs:label "Network Density".
+
+#Question 29: Chen, K., Zhou, L., Chen, X., Bi, J., Kinney, P.L. , 2016
+
+:Question29 a sqo:Regression; 
+	rdfs:label "How does urbanicity affect the vulnerability to heat-related mortality?";
+	rdfs:comment "Statistical regression analysis";
+	sqo:hasSpatialExtent dbp:Jiangsu;  
+	sqo:hasTemporalExtent "2013"^^time:generalYear; 
+	sqo:hasGoalAttribute _:HeatRelatedMortality;
+	sqo:hasSupportAttribute _:StatisticalRegions; 
+	sqo:hasInputAttribute _:UrbanAreas.
+	
+_:HeatRelatedMortality a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:HeatRelatedMortality rdfs:label "Heat-Related Mortality".
+_:StatisticalRegions rdfs:label "Statistical Regions".
+_:UrbanAreas rdfs:label "Urban Areas".
+
+#Question 30: Sun, P., Xiu, C., Pang, R., Song, W., 2016
+
+:Question30 a sqo:Cluster; 
+	rdfs:label "How are economic activities clustered whithin the metropolitan area of Shenyang?";
+	sqo:hasSpatialExtent dbp:Shenyang;  
+	sqo:hasTemporalExtent "2010"^^time:generalYear; 
+	sqo:hasGoalAttribute _:EconomicActivities;
+	sqo:hasSupportAttribute _:VectorPoints; 
+	sqo:hasInputAttribute _:AdministrativeBoundaries.
+ 	  
+_:EconomicActivities a ccd:ObjectVector; 
+	ada:ofDataset ccd:Vector. 
+
+_:EconomicActivities rdfs:label "EconomicActivities".
+_:AdministrativeBoundaries rdfs:label "Administrative Boundaries".
+_:VectorPoints rdfs:label "Vector Points".
+
+#Question 31: Luan, H., Law, J., Quick, M. , 2016
+
+:Question31 a sqo:Accessibility; 
+	rdfs:label "What are the spatio-temporal patterns of RHFA (relative healthy food access) in the region of Waterloo, Canada?";
+	sqo:hasSpatialExtent dbp:Waterloo;  
+	sqo:hasTemporalExtent "2014"^^time:generalYear; 
+	sqo:hasGoalAttribute _:AccessScore;
+	sqo:hasSupportAttribute _:StatisticalRegions; 
+	sqo:hasInputAttribute _:FoodOutlets; 
+	sqo:hasInputAttribute _:RoadNetwork;
+	sqo:hasInputAttribute _:AdministrativeAreas.
+ 	  
+_:AccessScore a ccd:Lattice; 
+	ada:ofDataset ccd:Tesselation. 
+
+_:StatisticalRegions rdfs:label "Statistical Regions".
+_:RoadNetwork rdfs:label "Road Network".
+_:AdministrativeAreas rdfs:label "Administrative Areas".
+_:AccessScore rdfs:label "Access Score".
+_:FoodOutlets rdfs:label "Food Outlets".
